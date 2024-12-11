@@ -1,27 +1,43 @@
 package repository;
 import entity.Book;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Library{
     private static final List<Book> BOOKS = new ArrayList<>();
     static {
-        BOOKS.add(new Book("Война и мир", "Лев Толстой",2010 ));
-        BOOKS.add(new Book("Таинственный остров", "Жюль Верн",2013 ));
+        BOOKS.add(new Book("Война и мир", "Лев Толстой",2010,true ));
+        BOOKS.add(new Book("Таинственный остров", "Жюль Верн",2013,true ));
         BOOKS.add(new Book("Преступление и наказание", "Фёдор Достоевский"));
-        BOOKS.add(new Book("Всадник без головы", "Майн Рид",2017 ));
+        BOOKS.add(new Book("Всадник без головы", "Майн Рид",2017,true ));
         BOOKS.add(new Book("Мёртвые Души", "Николай Гоголь" ));
-
+        BOOKS.add(new Book("Дети капитана Гранта", "Жюль Верн",2015,true ));
     }
 
-    public void borrowBook(Book book) {
-        if(book.isAvailable()){book.setAvailable(false);}
 
+    public boolean borrowBook(Book book) {
+        if (book == null) {
+            throw new IllegalArgumentException("Book cannot be null");
+        }
+
+        if (!book.isAvailable()) {
+            return false;
+        }
+
+        book.setAvailable(false);
+        return true;
     }
 
-    public void returnBook(Book book) {
+    public boolean returnBook(Book book) {
+        if (book == null) {
+            throw new IllegalArgumentException("Book cannot be null");
+        }
+
         book.setAvailable(true);
-
+        return true;
     }
 
     public void  printAvailableBooks(){
@@ -33,25 +49,37 @@ public class Library{
     }
 
     public void addBook(Book book) {
-        BOOKS.add(book);
+        if(book != null){
+        BOOKS.add(book);}
 
     }
-    public Book getBook(String title){
-        for(Book book:BOOKS){
-            if(book.getTitle().equals(title)){return book;}
+    public Optional<Book> getBook(String title) {
+        for (Book book : BOOKS) {
+            if (book.getTitle().equals(title)) {
+                return Optional.of(book);
+            }
         }
-        return null;
+        return Optional.empty();
     }
 
     public void displayInfo(String title) {
-        BOOKS.stream()
-                .filter(book -> book.getTitle().equals(title))
-                .forEach(System.out::println);
+        if (title != null) {
+            List<Book> bookInfo = BOOKS.stream()
+                    .filter(book -> book.getTitle().equals(title)).toList();
+            if(bookInfo.isEmpty()){
+
+                System.out.printf("Книга '%s' не найдена\n",title);
+            }
+            else System.out.println(bookInfo);
+        }
     }
 
-    public void findBooksByAuthor(String author) {
-        BOOKS.stream()
+    public List<Book> findBooksByAuthor(String author) {
+        if (author == null) {
+            throw new IllegalArgumentException("Author cannot be null");
+        }
+        return BOOKS.stream()
                 .filter(book -> book.getAuthor().equals(author))
-                .forEach(System.out::println);
+                .collect(Collectors.toList());
     }
 }
