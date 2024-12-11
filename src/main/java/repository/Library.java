@@ -1,5 +1,6 @@
 package repository;
 import entity.Book;
+import entity.BookCollection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,12 +75,18 @@ public class Library{
         }
     }
 
-    public List<Book> findBooksByAuthor(String author) {
+    public Optional<BookCollection> findBooksByAuthor(String author) {
         if (author == null) {
             throw new IllegalArgumentException("Author cannot be null");
         }
-        return BOOKS.stream()
+        BookCollection bookCollection=new BookCollection();
+        List<Book> collection = BOOKS.stream()
                 .filter(book -> book.getAuthor().equals(author))
-                .collect(Collectors.toList());
+                .toList();
+        if(collection.isEmpty()){return Optional.empty();}
+        for(Book book:collection){
+            bookCollection.addBook(book);
+        }
+        return Optional.of(bookCollection);
     }
 }

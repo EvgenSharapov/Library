@@ -19,7 +19,11 @@ public class Main{
         System.out.println(STARS);
         repository.displayInfo("Война и мир");
         System.out.println(STARS);
-        System.out.println(repository.findBooksByAuthor("Жюль Верн"));
+
+        (repository.findBooksByAuthor("Жюль Верн")).ifPresentOrElse(
+                book -> System.out.print("" + book),
+                () -> System.out.println("Такой автор не найден")
+        );
         System.out.println(STARS);
         if(repository.borrowBook(bookOne)){
             System.out.printf("Книгу '%s' взяли из библиотеки.\n",bookOne.getTitle());
