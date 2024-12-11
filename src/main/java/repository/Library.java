@@ -36,6 +36,12 @@ public class Library{
         BOOKS.add(book);
 
     }
+    public Book getBook(String title){
+        for(Book book:BOOKS){
+            if(book.getTitle().equals(title)){return book;}
+        }
+        return null;
+    }
 
     public void displayInfo(String title) {
         BOOKS.stream()

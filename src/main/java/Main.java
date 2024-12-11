@@ -1,5 +1,3 @@
-package util;
-
 import entity.Book;
 import repository.Library;
 
@@ -11,6 +9,7 @@ public class Main{
         Library repository = new Library();
         Book bookOne = new Book("Мастер и маргарита", "Михаил Булгаков");
         Book bookTwo = new Book("Вишнёвый сад", "Антон Чехов", 2018);
+        Book bookTree=repository.getBook("Всадник без головы");
         repository.addBook(bookOne);
         repository.addBook(bookTwo);
         repository.printAvailableBooks();
@@ -21,6 +20,7 @@ public class Main{
         System.out.println(STARS);
         repository.borrowBook(bookOne);
         repository.borrowBook(bookTwo);
+        repository.borrowBook(bookTree);
         repository.printAvailableBooks();
         System.out.println(STARS);
         repository.returnBook(bookOne);
