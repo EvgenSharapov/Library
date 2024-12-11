@@ -25,21 +25,15 @@ public class Main{
                 () -> System.out.println("Такой автор не найден")
         );
         System.out.println(STARS);
-        if(repository.borrowBook(bookOne)){
-            System.out.printf("Книгу '%s' взяли из библиотеки.\n",bookOne.getTitle());
-        };
-        if(repository.borrowBook(bookTwo)){
-            System.out.printf("Книгу '%s' взяли из библиотеки.\n",bookTwo.getTitle());
-        };
+        repository.borrowBook(bookOne);
+        repository.borrowBook(bookTwo);
+        bookTree.ifPresent(repository::borrowBook);
 
-        bookTree.ifPresent(book -> {
-            if(repository.borrowBook(book)){System.out.printf("Книгу '%s' взяли из библиотеки.\n",book.getTitle());};;
-        });
         System.out.println(STARS);
         repository.printAvailableBooks();
         System.out.println(STARS);
-        if(repository.returnBook(bookOne)){System.out.printf("Книгу '%s' вернули в библиотеку.\n",bookOne.getTitle());}
-        if(repository.returnBook(bookTwo)){System.out.printf("Книгу '%s' вернули в библиотеку.\n",bookTwo.getTitle());}
+        repository.returnBook(bookOne);
+        repository.returnBook(bookTwo);
         System.out.println(STARS);
         repository.printAvailableBooks();
 

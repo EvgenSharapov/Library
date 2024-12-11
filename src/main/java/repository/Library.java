@@ -29,6 +29,7 @@ public class Library{
         }
 
         book.setAvailable(false);
+        System.out.printf("Книгу '%s' взяли из библиотеки.\n",book.getTitle());
         return true;
     }
 
@@ -38,6 +39,7 @@ public class Library{
         }
 
         book.setAvailable(true);
+        System.out.printf("Книгу '%s' вернули в библиотеку.\n",book.getTitle());
         return true;
     }
 
